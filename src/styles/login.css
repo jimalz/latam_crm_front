@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  background: #042d14;
+  font-family: sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  width: 360px;
+  padding: 32px;
+  background: blue;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}

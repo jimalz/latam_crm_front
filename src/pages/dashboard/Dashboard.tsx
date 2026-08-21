@@ -1,8 +1,4 @@
 export default function Dashboard() {
-  return (
-    <div style={{ padding: "40px" }}>
-      <h1>Dashboard</h1>
-      <p>Welcome to your CRM dashboard.</p>
-    </div>
-  );
+  return <h2>Dashboard</h2>;
+
 }

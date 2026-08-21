@@ -1,21 +1,17 @@
-import { useState } from "react";
-import MainLayout from "../../layout/MainLayout";
-import CustomerList from "../../components/customers/CustomerList";
-import CustomerForm from "../../components/customers/CustomerForm";
+import { useEffect, useState } from "react";
+import { customerService } from "@/services/customerService";
 
 export default function Customers() {
-  const [selected, setSelected] = useState(null);
-  const [refresh, setRefresh] = useState(false);
+  const [customers, setCustomers] = useState([]);
 
-  function handleSaved() {
-    setSelected(null);
-    setRefresh(!refresh);
-  }
+  useEffect(() => {
+    customerService.getAll().then(setCustomers);
+  }, []);
 
   return (
-    <MainLayout>
-      <CustomerForm selected={selected} onSaved={handleSaved} />
-      <CustomerList key={refresh} onEdit={setSelected} />
-    </MainLayout>
+    <div>
+      <h1>Customers</h1>
+      <pre>{JSON.stringify(customers, null, 2)}</pre>
+    </div>
   );
 }

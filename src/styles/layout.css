@@ -1,0 +1,45 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Page background */
+body {
+  background: #f0f2f5;
+  font-family: sans-serif;
+}
+
+/* Center the login card */
+#root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 400px;
+}
+
+.login-container input,
+.login-container button {
+  width: 100%;
+  max-width: 100%;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column !important;
+  gap: 1rem;
+  width: 100%;
+}
+
+.login-container input,
+.login-container button {
+  width: 100%;
+}

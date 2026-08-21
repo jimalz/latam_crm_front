@@ -1,71 +1,53 @@
-import { useState } from "react";
-import axios from "axios";
-import { useAuth } from "../../context/AuthContext.jsx";
+import { useState, FormEvent } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const [email, setEmail] = useState("james@test.com");
+  const [password, setPassword] = useState("123456");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError(null);
 
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", {
-        email,
-        password,
-      });
-
-      login(res.data.token);
-    } catch (err) {
-      setError("Invalid email or password");
+      await login(email, password);
+      navigate("/dashboard");
+    } catch {
+      setError("Invalid credentials or server error.");
     }
   };
 
-  return (
-    <div style={{ maxWidth: "400px", margin: "80px auto" }}>
-      <h2>Login</h2>
+ return (
+  <div className="login-container">
+    <h1>Login</h1>
+
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        autoComplete="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        autoComplete="current-password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+);
 
-        <div style={{ marginBottom: "10px" }}>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            background: "#333",
-            color: "#fff",
-            border: "none",
-          }}
-        >
-          Login
-        </button>
-      </form>
-    </div>
-  );
 }

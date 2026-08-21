@@ -1,14 +1,32 @@
-import Sidebar from "../components/common/Sidebar";
-import Navbar from "../components/common/Navbar";
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function MainLayout({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function MainLayout({ children }: Props) {
+  const { user, logout } = useAuth();
+
   return (
-    <div style={{ display: "flex" }}>
-      <Sidebar />
-      <div style={{ flex: 1 }}>
-        <Navbar />
-        <div>{children}</div>
-      </div>
+    <div>
+      <header>
+        <nav>
+          <Link to="/dashboard">Dashboard</Link>{" | "}
+          <Link to="/customers">Customers</Link>{" | "}
+          <Link to="/campaigns">Campaigns</Link>{" | "}
+          <Link to="/messages">Messages</Link>
+          {" | "}
+          {user && (
+            <button onClick={logout} style={{ marginLeft: "1rem" }}>
+              Logout
+            </button>
+          )}
+        </nav>
+      </header>
+
+      <main>{children}</main>
     </div>
   );
 }

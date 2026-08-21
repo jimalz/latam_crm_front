@@ -1,13 +1,14 @@
-export async function login(email, password) {
-  const res = await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  });
+import ky from "ky";
+import type { LoginRequest, LoginResponse } from "@/types/auth.model";
 
-  if (!res.ok) {
-    throw new Error("Invalid email or password");
-  }
+const api = ky.create({
+  prefixUrl: import.meta.env.VITE_API_URL, // http://localhost:3000/
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-  return res.json(); // { token }
-}
+export const authApi = {
+  login: (data: LoginRequest): Promise<LoginResponse> =>
+    api.post("auth/login", { json: data }).json(),
+};
